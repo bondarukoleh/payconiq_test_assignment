@@ -1,0 +1,4 @@
+--recursive specs/**/*.js
+--timeout 60000
+-R spec
+#--file test_setup/pretest.js

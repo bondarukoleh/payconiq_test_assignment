@@ -1,0 +1,8 @@
+### !!! Make a copy of this file without .dist extension, and set GIT_TOKEN env var.
+### !!! Make start.test.sh file executable, run "chmod +x start.test.sh" in your terminal
+### !!! Run tests in terminal "./start.local.app.sh"
+
+export GIT_TOKEN=YOUR_GIT_TOKEN
+
+echo Start tests...
+npm t;

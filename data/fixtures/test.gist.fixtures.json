@@ -1,0 +1,30 @@
+{
+  "oneFileGist": {
+    "description": "Simple gist creation",
+    "files": {
+      "simple.function.js": {
+        "content": "function printGistCreation() {console.log('Gist is created!')}"
+      }
+    }
+  },
+  "twoFileGist": {
+    "description": "Simple gist creation",
+    "files": {
+      "simple.function.js": {
+        "content": "function printGistCreation() {console.log('Gist is created!')}"
+      },
+      "simple.command.sh": {
+        "content": "echo 'This is gist!';"
+      }
+    }
+  },
+  "publicGist": {
+    "description": "Simple gist creation",
+    "public": true,
+    "files": {
+      "simple.function.js": {
+        "content": "function printGistCreation() {console.log('Gist is created!')}"
+      }
+    }
+  }
+}
