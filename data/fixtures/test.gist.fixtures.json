@@ -10,10 +10,10 @@
   "twoFileGist": {
     "description": "Simple gist creation",
     "files": {
-      "simple.function.js": {
-        "content": "function printGistCreation() {console.log('Gist is created!')}"
+      "another.function.js": {
+        "content": "function helloWorld() {console.log('Hello world!')}"
       },
-      "simple.command.sh": {
+      "bash.file.sh": {
         "content": "echo 'This is gist!';"
       }
     }
@@ -22,8 +22,8 @@
     "description": "Simple gist creation",
     "public": true,
     "files": {
-      "simple.function.js": {
-        "content": "function printGistCreation() {console.log('Gist is created!')}"
+      "textFile.txt": {
+        "content": "Text file content"
       }
     }
   }

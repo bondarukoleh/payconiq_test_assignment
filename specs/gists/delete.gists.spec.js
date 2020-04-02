@@ -11,4 +11,12 @@ describe('DELETE gists suite', function () {
     const {status} = await gistsApi.deleteGist({id: gist.id});
     expect(status).to.eq(204, `Status should be 204, got ${status}`);
   });
+
+  it('DELETE gist', async function () {
+    const errorMessage = 'Not Found';
+
+    const {status, error} = await gistsApi.deleteGist({id: null});
+    expect(status).to.eq(404, `DELETE gist without id status should be 404`);
+    expect(error.message).to.eq(errorMessage);
+  });
 });
