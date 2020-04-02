@@ -41,4 +41,12 @@ describe('Post Gist suite', function () {
     expect(status).to.eq(422, `Status should be 422`);
     expect(error.message).to.include(errorMessage, `Message should contain ${errorMessage}`);
   });
+
+  it('POST gist without authorization', async function () {
+    const errorMessage = 'Requires authentication';
+
+    const {status, error} = await gistsApi.postGist({gist: fixtures.oneFileGist, withAuth: false});
+    expect(status).to.eq(401, `POST gist without authorization status should be 401`);
+    expect(error.message).to.eq(errorMessage);
+  });
 });

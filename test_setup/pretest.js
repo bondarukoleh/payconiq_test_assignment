@@ -10,7 +10,7 @@ before(async function () {
 });
 
 after(async function () {
-  await deleteGistsByID(createdGistIDs)
+  await deleteGistsByID(createdGistIDs);
 });
 
 async function createGists(gistsToCreate) {

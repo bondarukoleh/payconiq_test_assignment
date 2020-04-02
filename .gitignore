@@ -4,6 +4,7 @@
 
 # Dependency directories
 node_modules/
+package-lock.json
 
 #files with sencitive data
 start.test.sh

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "QA Engineer assignment: API testing",
   "scripts": {
-    "test": "mocha --opts ./config/mocha.opts"
+    "test": "mocha --opts ./config/mocha.opts",
+    "lint": "eslint . --config=.eslintrc"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/bondarukoleh/payconiq_test_assignment#readme",
   "dependencies": {
     "chai": "4.2.0",
+    "eslint": "6.8.0",
     "log4js": "6.1.2",
     "mocha": "6.2.2",
     "node-fetch": "2.6.0"

@@ -7,12 +7,15 @@ const {cloneObject} = require('../../helpers/common/clone');
 describe('Update Gist suite', function () {
   describe(`Update via PATCH`, function () {
     let createdGist = null;
+    let gistToUpdate = null;
 
-    beforeEach(async () => createdGist = await postGist({gistToPost: fixtures.twoFileGist}));
+    beforeEach(async () => {
+      createdGist = await postGist({gistToPost: fixtures.twoFileGist});
+      gistToUpdate = cloneObject(fixtures.twoFileGist);
+    });
     afterEach(async () => deleteGist({id: createdGist.id}));
 
     it('change content via PATCH', async function () {
-      const gistToUpdate = cloneObject(fixtures.twoFileGist);
       const newContent = `const newContent = "New Content"`;
       const changedContentFileName = Object.keys(gistToUpdate.files)[0];
       gistToUpdate.files[changedContentFileName].content = newContent;
@@ -23,7 +26,6 @@ describe('Update Gist suite', function () {
     });
 
     it('change file name via PATCH', async function () {
-      const gistToUpdate = cloneObject(fixtures.twoFileGist);
       const newFileName = `new.file.name.txt`;
       const oldFileName = Object.keys(gistToUpdate.files)[0];
       gistToUpdate.files[oldFileName].filename = newFileName;
@@ -35,26 +37,22 @@ describe('Update Gist suite', function () {
     });
 
     it('delete file via PATCH', async function () {
-      const gistWithFileDeletion = cloneObject(fixtures.twoFileGist);
-      const deletedFileName = Object.keys(gistWithFileDeletion.files)[0];
-      gistWithFileDeletion.files[deletedFileName] = null;
+      const deletedFileName = Object.keys(gistToUpdate.files)[0];
+      gistToUpdate.files[deletedFileName] = null;
 
-      const {status, body} = await gistsApi.patchGist({id: createdGist.id, gist: gistWithFileDeletion});
+      const {status, body} = await gistsApi.patchGist({id: createdGist.id, gist: gistToUpdate});
       expect(status).to.eq(200);
       expect(Object.keys(body.files)).to.not.include(deletedFileName);
     });
 
     it('add file via PATCH', async function () {
-      const createdGist = await postGist({gistToPost: fixtures.twoFileGist})
       const addedFile = {name: 'new.file.txt', content: {content: 'Some new content'}};
-      const gistWithAddedFile = cloneObject(fixtures.twoFileGist);
-      const previousFileNames = Object.keys(gistWithAddedFile.files);
-      gistWithAddedFile.files[addedFile.name] = addedFile.content;
+      const previousFileNames = Object.keys(gistToUpdate.files);
+      gistToUpdate.files[addedFile.name] = addedFile.content;
 
-      const {status, body} = await gistsApi.patchGist({id: createdGist.id, gist: gistWithAddedFile});
+      const {status, body} = await gistsApi.patchGist({id: createdGist.id, gist: gistToUpdate});
       expect(status).to.eq(200, `Status should be 200`);
       expect(Object.keys(body.files)).to.have.members([addedFile.name, ...previousFileNames]);
-      await deleteGist({id: createdGist.id})
     });
   });
 
@@ -101,6 +99,20 @@ describe('Update Gist suite', function () {
 
     const {status, error} = await gistsApi.patchGist({id: 'abc123', gist: fixtures.oneFileGist});
     expect(status).to.eq(404, `PATCH gist without id status should be 404`);
+    expect(error.message).to.eq(errorMessage);
+  });
+
+  it('PATCH gist without authorization', async function () {
+    let gistIdToPatch = null;
+    {
+      const {status, body} = await gistsApi.getAllGists();
+      expect(status).to.eq(200, `Status should be 200`);
+      gistIdToPatch = body[0].id;
+    }
+    const errorMessage = 'Not Found';
+
+    const {status, error} = await gistsApi.patchGist({id: gistIdToPatch, gist: fixtures.oneFileGist, withAuth: false});
+    expect(status).to.eq(404, `PATCH gist without authorization status should be 404`);
     expect(error.message).to.eq(errorMessage);
   });
 });
